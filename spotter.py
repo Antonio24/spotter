@@ -4,8 +4,8 @@ from argparse import ArgumentParser
 import sys
 from base.encrypter import Encrypter
 from base.obfuscator import Obfuscator
-from templates.psh import pshTemplate
-from templates.csi import csInjectorTemplate
+from base.psh import pshTemplate
+from base.csi import csInjectorTemplate
 
 banner = """
                  _   _            
@@ -129,7 +129,7 @@ try:
         elif args.computer:
             check = "System.Security.Principal.WindowsIdentity.GetCurrent().Name;\n" + envKey + " = " + envKey + ".Split('\\\\')[0]"
         # Replace original variable and function names with obfuscated ones
-        with open("examples/spotter-inject.cs", "rt") as fin:
+        with open("templates/spotter-inject.cs", "rt") as fin:
             r1 = fin.read().replace('encDllB64', encDllB64)
             r1 = r1.replace('encDllBytes', encDllBytes)
             r1 = r1.replace('newIV', newIV)
@@ -176,7 +176,7 @@ try:
         elif args.computer:
             check = "System.Security.Principal.WindowsIdentity.GetCurrent().Name;\n" + envKey + " = " + envKey + ".Split('\\\\')[0]"
         #print(encrypted)
-        with open("examples/spotter-process.cs", "rt") as fin:
+        with open("templates/spotter-process.cs", "rt") as fin:
             r1 = fin.read().replace('ENCODED_COMMAND', encrypted)
             r1 = r1.replace('KEYCHECK', check)
             r1 = r1.replace('encDllBytes', encDllBytes)
